@@ -6,6 +6,7 @@ import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
 import { Detail as DetailScreen, Home as HomeScreen } from './screen'
+import { hymnsList, Hymn } from './constant'
 
 const Stack = createNativeStackNavigator()
 
@@ -21,14 +22,15 @@ export const Main = () => (
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen
           name="Detail"
-          // options={({route}: any) => {
-          //   const creedDetail = creeds.find((item: Creed) => route.params.creed === item.parameter)
+          options={({route}: any) => {
+            const hymnsFromTheme = hymnsList[route.params.theme]
+            const hymnDetail = hymnsFromTheme.find((hymn: Hymn) => route.params.id === hymn.id)
 
-          //   return {
-          //     title: `${route.params.id}. ${creedDetail?.title}`,
-          //     headerShown: true,
-          //   }
-          // }}
+            return {
+              title: `${route.params.id}. ${hymnDetail?.name}`,
+              headerShown: true,
+            }
+          }}
         >
           {props => <DetailScreen {...props} />}
         </Stack.Screen>
