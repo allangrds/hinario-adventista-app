@@ -7,7 +7,7 @@ export const Layout = ({
   children,
   withHeader = true,
 }: {
-  children: any
+  children: React.ReactNode
   withHeader?: boolean
 }) => (
   <ScrollView backgroundColor="white">

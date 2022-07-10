@@ -4,24 +4,21 @@ import {
   Box,
   HStack,
   Icon,
-  Input,
   Pressable,
-  Switch,
   VStack,
   Text,
 } from 'native-base'
-import { MaterialIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import AwesomeDebouncePromise from 'awesome-debounce-promise'
 
-import { Layout, Loading } from '../../components'
-import { hymnsList, Hymn } from '../../constant'
+import { Layout, Loading, SearchInput, Switch } from '../../components'
+import { hymnsList, Hymn, Hymns } from '../../constant'
 
 export const Home = ({ navigation }: any) => {
   const [search, setSearch] = React.useState('')
   const [isLoading, setIsLoading] = React.useState(false)
   const [hymns, setHymns] = React.useState(hymnsList)
-  const [favorites, setFavorites] = React.useState({})
+  const [favorites, setFavorites] = React.useState<Hymn | object>({})
   const [isFavoriteEnabled, setIsFavoriteEnabled] = React.useState(false)
 
   const handleSearch = async (text: string) => {
@@ -37,10 +34,10 @@ export const Home = ({ navigation }: any) => {
     }
 
     const searchHymns = () => {
-      let foundHymns: any = {}
+      let foundHymns: Hymns = {}
 
       Object.keys(hymnsList).map((theme) => {
-        let hymnsFromTheme: any = []
+        let hymnsFromTheme: Hymn[] = []
         hymnsList[theme].map((hymn: Hymn) => {
           const found = hymn.tags.find(
             (tag) => tag.toUpperCase() === text.toUpperCase()
@@ -113,7 +110,8 @@ export const Home = ({ navigation }: any) => {
       return false
     }
     const favoriteHymnsParsed = JSON.parse(favoriteHymnsRaw)
-    const keyExists = favoriteHymnsParsed.hasOwnProperty(id)
+    // const keyExists = favoriteHymnsParsed.hasOwnProperty(id)
+    const keyExists = Object.prototype.hasOwnProperty.call(favoriteHymnsParsed, id)
 
     await AsyncStorage.setItem(
       'hymns',
@@ -142,42 +140,13 @@ export const Home = ({ navigation }: any) => {
 
   return (
     <Layout>
-      <Input
-        value={search}
-        borderWidth="0"
-        backgroundColor="muted.100"
-        placeholderTextColor="muted.500"
-        onChangeText={handleSearch}
-        placeholder="Digite sua pesquisa..."
-        width="100%"
-        borderRadius="8"
-        paddingTop="4"
-        paddingBottom="4"
-        marginBottom="4"
-        fontSize="md"
-        autoCapitalize="none"
-        InputLeftElement={
-          <Icon
-            ml="3"
-            size="7"
-            color="gray.700"
-            as={<MaterialIcons name="search" />}
-          />
-        }
-      />
+      <SearchInput value={search} onChangeText={handleSearch} />
       {!hymns || isLoading ? (
         <Loading />
       ) : (
         <>
           <HStack space={2} alignItems="center" marginBottom="8">
-            <Switch
-              marginLeft="-2"
-              size="sm"
-              isChecked={isFavoriteEnabled}
-              onToggle={handleToggle}
-              aria-label="mostrar apenas músicas favoritadas"
-            />
-            <Text>Ver apenas favoritos</Text>
+            <Switch isChecked={isFavoriteEnabled} onToggle={handleToggle} />
           </HStack>
           <VStack space={8}>
             {Object.keys(hymns).map((theme) => (
