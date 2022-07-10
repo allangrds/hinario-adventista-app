@@ -44,11 +44,7 @@ export const hymnsList: Hymns = {
           },
         },
       ],
-      tags: [
-        '1',
-        'santo',
-        'trindade',
-      ],
+      tags: ['1', 'santo', 'trindade'],
     },
     {
       id: '2',
@@ -57,7 +53,7 @@ export const hymnsList: Hymns = {
         'John S. B. Monsell',
         'Dario Pires de Araújo',
         'Edwin Barnes',
-        'Lineu Formighieri Soares'
+        'Lineu Formighieri Soares',
       ],
       videoId: 'u4c66cbU9-c',
       lyrics: [
@@ -76,12 +72,7 @@ export const hymnsList: Hymns = {
           },
         },
       ],
-      tags: [
-        '2',
-        'senhor',
-        'adorai',
-        'trindade',
-      ],
+      tags: ['2', 'senhor', 'adorai', 'trindade'],
     },
   ],
   [Theme.FATHER]: [
@@ -106,12 +97,7 @@ export const hymnsList: Hymns = {
           },
         },
       ],
-      tags: [
-        'pai',
-        '15',
-        'fiel',
-        'senhor',
-      ],
+      tags: ['pai', '15', 'fiel', 'senhor'],
     },
   ],
 }

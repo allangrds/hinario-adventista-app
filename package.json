@@ -17,7 +17,8 @@
     "web": "expo start --web",
     "eject": "expo eject",
     "typecheck": "tsc --noEmit --incremental false",
-    "eslint": "eslint './src/' --ext .json,.js,.jsx,.ts,.tsx"
+    "eslint": "eslint './src/' --ext .json,.js,.jsx,.ts,.tsx",
+    "format": "prettier --write \"**/*.{js,ts,tsx,md}\""
   },
   "dependencies": {
     "@react-navigation/native": "^6.0.11",
@@ -45,9 +46,12 @@
     "@typescript-eslint/parser": "^5.30.5",
     "eas-cli": "^0.54.1",
     "eslint": "^8.19.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-native": "^4.0.0",
     "eslint-plugin-simple-import-sort": "^7.0.0",
+    "prettier": "^2.7.1",
     "react-native-svg-transformer": "^1.0.0",
     "typescript": "~4.3.5"
   },

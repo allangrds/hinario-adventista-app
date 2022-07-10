@@ -1,10 +1,5 @@
-import * as React from "react"
-import {
-  Heading,
-  HStack,
-  Spinner,
-  useColorModeValue,
-} from "native-base"
+import * as React from 'react'
+import { Heading, HStack, Spinner, useColorModeValue } from 'native-base'
 
 export const Loading = () => (
   <HStack paddingY={20} space={2} justifyContent="center" alignItems="center">

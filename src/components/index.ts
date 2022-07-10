@@ -1,3 +1,3 @@
-export { Header } from './Header'
-export { Loading } from './Loading'
-export { Layout } from './Layout'
+export { Header } from './header'
+export { Loading } from './loading'
+export { Layout } from './layout'

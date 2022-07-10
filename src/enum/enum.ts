@@ -1,4 +1,4 @@
- export enum Theme {
-  TRINITY = "A trindade",
-  FATHER = "O Pai",
+export enum Theme {
+  TRINITY = 'A trindade',
+  FATHER = 'O Pai',
 }

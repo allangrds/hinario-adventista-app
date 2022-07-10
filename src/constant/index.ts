@@ -1,1 +1,1 @@
-export * from './hymns-list'
+export * from './constant'

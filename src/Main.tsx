@@ -1,7 +1,5 @@
-import * as React from "react"
-import {
-  NativeBaseProvider,
-} from "native-base"
+import * as React from 'react'
+import { NativeBaseProvider } from 'native-base'
 import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 
@@ -16,15 +14,17 @@ export const Main = () => (
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
-          headerShown: false
+          headerShown: false,
         }}
       >
         <Stack.Screen name="Home" component={HomeScreen} />
         <Stack.Screen
           name="Detail"
-          options={({route}: any) => {
+          options={({ route }: any) => {
             const hymnsFromTheme = hymnsList[route.params.theme]
-            const hymnDetail = hymnsFromTheme.find((hymn: Hymn) => route.params.id === hymn.id)
+            const hymnDetail = hymnsFromTheme.find(
+              (hymn: Hymn) => route.params.id === hymn.id
+            )
 
             return {
               title: `${route.params.id}. ${hymnDetail?.name}`,
@@ -32,7 +32,7 @@ export const Main = () => (
             }
           }}
         >
-          {props => <DetailScreen {...props} />}
+          {(props) => <DetailScreen {...props} />}
         </Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

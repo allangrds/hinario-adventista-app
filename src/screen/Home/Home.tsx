@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from 'react'
 import { AsyncStorage } from 'react-native'
 import {
   Box,
@@ -9,7 +9,7 @@ import {
   Switch,
   VStack,
   Text,
-} from "native-base"
+} from 'native-base'
 import { MaterialIcons } from '@expo/vector-icons'
 import { AntDesign } from '@expo/vector-icons'
 import AwesomeDebouncePromise from 'awesome-debounce-promise'
@@ -41,21 +41,20 @@ export const Home = ({ navigation }: any) => {
 
       Object.keys(hymnsList).map((theme) => {
         let hymnsFromTheme: any = []
-        hymnsList[theme].map((hymn:Hymn) => {
-          const found = hymn.tags.find(tag => tag.toUpperCase() === text.toUpperCase())
+        hymnsList[theme].map((hymn: Hymn) => {
+          const found = hymn.tags.find(
+            (tag) => tag.toUpperCase() === text.toUpperCase()
+          )
 
           if (found) {
-            hymnsFromTheme = [
-              ...hymnsFromTheme,
-              hymn,
-            ]
+            hymnsFromTheme = [...hymnsFromTheme, hymn]
           }
         })
 
         if (hymnsFromTheme.length > 0) {
           foundHymns = {
             ...foundHymns,
-            [theme]: hymnsFromTheme
+            [theme]: hymnsFromTheme,
           }
         }
       })
@@ -84,14 +83,14 @@ export const Home = ({ navigation }: any) => {
     setIsFavoriteEnabled(!isFavoriteEnabled)
 
     Object.keys(hymnsList).map((theme) => {
-      const hymnsFromTheme = hymnsList[theme].filter((hymn:Hymn) => (
-        !!favorites[hymn.id]
-      ))
+      const hymnsFromTheme = hymnsList[theme].filter(
+        (hymn: Hymn) => !!favorites[hymn.id]
+      )
 
       if (hymnsFromTheme.length > 0) {
         favoritedHymns = {
           ...favoritedHymns,
-          [theme]: hymnsFromTheme
+          [theme]: hymnsFromTheme,
         }
       }
     })
@@ -107,7 +106,7 @@ export const Home = ({ navigation }: any) => {
       await AsyncStorage.setItem(
         'hymns',
         JSON.stringify({
-          [id]: true
+          [id]: true,
         })
       )
 
@@ -118,19 +117,15 @@ export const Home = ({ navigation }: any) => {
 
     await AsyncStorage.setItem(
       'hymns',
-      JSON.stringify(
-        {
-          ...favoriteHymnsParsed,
-          [id]: keyExists ? !favoriteHymnsParsed[id] : true
-        }
-      )
-    )
-    setFavorites(
-      {
+      JSON.stringify({
         ...favoriteHymnsParsed,
-        [id]: keyExists ? !favoriteHymnsParsed[id] : true
-      }
+        [id]: keyExists ? !favoriteHymnsParsed[id] : true,
+      })
     )
+    setFavorites({
+      ...favoriteHymnsParsed,
+      [id]: keyExists ? !favoriteHymnsParsed[id] : true,
+    })
   }
 
   React.useEffect(() => {
@@ -170,89 +165,83 @@ export const Home = ({ navigation }: any) => {
           />
         }
       />
-      {
-        !hymns || isLoading
-        ? <Loading />
-        : (
-          <>
-            <HStack space={2} alignItems="center" marginBottom="8">
-              <Switch
-                marginLeft="-2"
-                size="sm"
-                isChecked={isFavoriteEnabled}
-                onToggle={handleToggle}
-                aria-label="mostrar apenas músicas favoritadas"
-              />
-              <Text>Ver apenas favoritos</Text>
-            </HStack>
-            <VStack space={8}>
-              {
-                Object.keys(hymns).map((theme) => (
-                  <Box key={theme}>
-                    <Text
-                      fontSize="3xl"
-                      fontWeight="bold"
+      {!hymns || isLoading ? (
+        <Loading />
+      ) : (
+        <>
+          <HStack space={2} alignItems="center" marginBottom="8">
+            <Switch
+              marginLeft="-2"
+              size="sm"
+              isChecked={isFavoriteEnabled}
+              onToggle={handleToggle}
+              aria-label="mostrar apenas músicas favoritadas"
+            />
+            <Text>Ver apenas favoritos</Text>
+          </HStack>
+          <VStack space={8}>
+            {Object.keys(hymns).map((theme) => (
+              <Box key={theme}>
+                <Text fontSize="3xl" fontWeight="bold">
+                  {theme}
+                </Text>
+                {hymns[theme].map((hymn: Hymn) => (
+                  <>
+                    <HStack
+                      key={hymn.id}
+                      justifyContent="space-between"
+                      alignItems="center"
+                      space={6}
+                      marginTop={4}
+                      marginBottom={4}
                     >
-                      {theme}
-                    </Text>
-                    {hymns[theme].map((hymn: Hymn) => (
-                      <>
-                        <HStack
-                          key={hymn.id}
-                          justifyContent="space-between"
-                          alignItems="center"
-                          space={6}
-                          marginTop={4}
-                          marginBottom={4}
-                        >
-                          <Pressable
-                            onPress={() => navigation.navigate('Detail', {
-                              id: hymn.id,
-                              theme,
-                            })}
+                      <Pressable
+                        onPress={() =>
+                          navigation.navigate('Detail', {
+                            id: hymn.id,
+                            theme,
+                          })
+                        }
+                      >
+                        <Text fontSize="xl" fontWeight="bold">
+                          {hymn.id}. {hymn.name}
+                        </Text>
+                        {hymn.authors.map((author: string) => (
+                          <Text
+                            key={`${author}-${hymn.id}`}
+                            fontSize="md"
+                            color="gray.500"
                           >
-                            <Text
-                              fontSize="xl"
-                              fontWeight="bold"
-                            >
-                              {hymn.id}. {hymn.name}
-                            </Text>
-                            {
-                              hymn.authors.map((author: string) => (
-                                <Text
-                                  key={`${author}-${hymn.id}`}
-                                  fontSize="md"
-                                  color="gray.500"
-                                >
-                                  { author }
-                                </Text>
-                              ))
-                            }
-                          </Pressable>
-                          <Pressable onPress={() => saveToFavorites(hymn.id)}>
-                            <Icon
-                              color="black"
-                              size={6}
-                              as={<AntDesign name={favorites[hymn.id] ? "heart" : "hearto"} />}
+                            {author}
+                          </Text>
+                        ))}
+                      </Pressable>
+                      <Pressable onPress={() => saveToFavorites(hymn.id)}>
+                        <Icon
+                          color="black"
+                          size={6}
+                          as={
+                            <AntDesign
+                              name={favorites[hymn.id] ? 'heart' : 'hearto'}
                             />
-                          </Pressable>
-                        </HStack>
-                        <HStack justifyContent="center">
-                          <Box
-                            borderBottomColor="gray.200"
-                            borderBottomWidth={1}
-                            width="50%"
-                          />
-                        </HStack>
-                      </>
-                    ))}
-                  </Box>
-                ))
-              }
-            </VStack>
-          </>
-        )
-      }
+                          }
+                        />
+                      </Pressable>
+                    </HStack>
+                    <HStack justifyContent="center">
+                      <Box
+                        borderBottomColor="gray.200"
+                        borderBottomWidth={1}
+                        width="50%"
+                      />
+                    </HStack>
+                  </>
+                ))}
+              </Box>
+            ))}
+          </VStack>
+        </>
+      )}
     </Layout>
   )
 }

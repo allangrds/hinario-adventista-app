@@ -1,8 +1,6 @@
-import * as React from "react"
+import * as React from 'react'
 import { View } from 'react-native'
-import {
-  HStack,
-} from "native-base"
+import { HStack } from 'native-base'
 
 import Logo from '../../assets/hinario-adventista.svg'
 
