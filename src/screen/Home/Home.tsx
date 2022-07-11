@@ -73,7 +73,6 @@ export const Home = ({ navigation }: any) => {
     if (isFavoriteEnabled) {
       setHymns(hymnsList)
       setIsFavoriteEnabled(!isFavoriteEnabled)
-      setIsLoading(false)
 
       return false
     }
@@ -97,6 +96,7 @@ export const Home = ({ navigation }: any) => {
   }
 
   const saveToFavorites = async (id: string) => {
+    setIsLoading(true)
     const favoriteHymnsRaw = await AsyncStorage.getItem('hymns')
 
     if (!favoriteHymnsRaw) {
@@ -124,6 +124,7 @@ export const Home = ({ navigation }: any) => {
       ...favoriteHymnsParsed,
       [id]: keyExists ? !favoriteHymnsParsed[id] : true,
     })
+    setIsLoading(false)
   }
 
   React.useEffect(() => {
@@ -137,6 +138,10 @@ export const Home = ({ navigation }: any) => {
 
     getFavoriteHymns()
   }, [])
+
+  React.useEffect(() => {
+    setIsLoading(false)
+  }, [hymns])
 
   return (
     <Layout>
@@ -172,20 +177,17 @@ export const Home = ({ navigation }: any) => {
                           })
                         }
                       >
-                        <Text fontSize="xl" fontWeight="bold">
+                        <Text
+                          fontSize="xl"
+                          fontWeight="bold"
+                          style={{flex: 1}}
+                        >
                           {hymn.id}. {hymn.name}
                         </Text>
-                        {hymn.authors.map((author: string) => (
-                          <Text
-                            key={`${author}-${hymn.id}`}
-                            fontSize="md"
-                            color="gray.500"
-                          >
-                            {author}
-                          </Text>
-                        ))}
                       </Pressable>
-                      <Pressable onPress={() => saveToFavorites(hymn.id)}>
+                      <Pressable
+                        onPress={() => saveToFavorites(hymn.id)}
+                      >
                         <Icon
                           color="black"
                           size={6}
